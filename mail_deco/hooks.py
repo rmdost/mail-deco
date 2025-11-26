@@ -7,12 +7,14 @@ app_license = "mit"
 
 app_include_js = [
     "https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js",
-    "/assets/your_app/js/custom_email_editor.js"
+    "/assets/mail_deco/js/custom_email_editor.js"
 ]
 
 app_include_css = [
     "https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css"
 ]
+
+
 
 
 # Apps

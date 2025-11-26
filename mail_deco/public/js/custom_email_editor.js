@@ -1,26 +1,24 @@
 frappe.ui.form.on('Communication', {
     onload_post_render: function(frm) {
-        // Wait for email compose field
+        // Wait for field to render
         setTimeout(() => {
+            let textarea = document.querySelector(".frappe-control[data-fieldname='content'] textarea");
 
-            // Target editor area
-            let editorElement = document.querySelector(".frappe-control[data-fieldname='content'] textarea");
-
-            if (!editorElement) {
-                console.log("Email field not found!");
+            if (!textarea) {
+                console.log("Email content field not found!");
                 return;
             }
 
-            // Hide Frappe default textarea
-            editorElement.style.display = "none";
+            // Hide default textarea
+            textarea.style.display = "none";
 
-            // Create container for new editor
-            let newEditorDiv = document.createElement("div");
-            newEditorDiv.id = "custom-rich-editor";
-            editorElement.parentNode.appendChild(newEditorDiv);
+            // Create container for editor
+            let editorDiv = document.createElement("div");
+            editorDiv.id = "custom-rich-editor";
+            textarea.parentNode.appendChild(editorDiv);
 
-            // Load SunEditor library
-            SunEditor.create('custom-rich-editor', {
+            // Initialize SunEditor
+            const editor = SunEditor.create('custom-rich-editor', {
                 height: 300,
                 buttonList: [
                     ['undo', 'redo'],
@@ -30,14 +28,14 @@ frappe.ui.form.on('Communication', {
                     ['align', 'list'],
                     ['table'],
                     ['link', 'image'],
-                    ['codeView']
+                    ['codeView']   // HTML toggle
                 ]
-            }).then(editor => {
-                // Sync content back to hidden textarea
-                editor.onChange = function(contents) {
-                    frm.set_value("content", contents);
-                };
             });
+
+            // Sync editor content to Frappe field
+            editor.onChange = function(contents) {
+                frm.set_value("content", contents);
+            };
 
         }, 500);
     }
